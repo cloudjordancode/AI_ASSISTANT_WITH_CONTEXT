@@ -113,6 +113,27 @@ with st.sidebar:
     st.caption(f"Messages: {len(st.session_state['messages'])}")
 
 
+    # — Conversation Export —
+    if st.button("📋 Copy Conversation"):
+        if st.session_state["messages"]:
+            export_text = ""
+
+            for msg in st.session_state["messages"]:
+                role = "You" if msg["role"] == "user" else "AI"
+                export_text += f"{role}: {msg['content']}\n\n"
+
+            st.code(export_text, language=None)
+
+            st.download_button(
+                "💾 Download Chat",
+                data=export_text,
+                file_name="chat_export.txt",
+                mime="text/plain"
+            )
+
+        else:
+            st.info("No messages to export yet.")
+
 # ── Page title ─────────────────────────────────────────────────────────────
 # TODO: st.title and info banner if no API key
 
